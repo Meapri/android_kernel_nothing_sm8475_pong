@@ -1584,12 +1584,14 @@ static irqreturn_t goodix_ts_threadirq_func(int irq, void *data)
 	struct goodix_ts_esd *ts_esd = &core_data->ts_esd;
 	int ret;
 
+	pr_info("Meapri_FOD: %s\n", __func__);
 
 	goodix_wakeup_held(core_data, true);
 	ts_esd->irq_status = true;
 	core_data->irq_trig_cnt++;
 	/* inform external module */
 	mutex_lock(&goodix_modules.mutex);
+
 	list_for_each_entry_safe(ext_module, next,
 				 &goodix_modules.head, list) {
 		if (!ext_module->funcs->irq_event)
